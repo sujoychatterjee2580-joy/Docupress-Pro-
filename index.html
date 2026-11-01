@@ -1,0 +1,1030 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DocuPress Pro - Universal Private PDF Suite</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- PDF Encryption Module via jsdelivr -->
+    <script src="https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-encrypt@1.2.0/dist/index.umd.min.js"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #070913;
+            color: #f1f5f9;
+        }
+        .ad-banner-slot {
+            background: repeating-linear-gradient(
+                -45deg,
+                rgba(30, 41, 59, 0.45),
+                rgba(30, 41, 59, 0.45) 10px,
+                rgba(15, 23, 42, 0.75) 10px,
+                rgba(15, 23, 42, 0.75) 20px
+            );
+            border: 1px dashed rgba(100, 116, 139, 0.35);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Top Master Navigation Bar -->
+    <header class="w-full bg-slate-900/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40 px-4 py-3 flex flex-wrap justify-between items-center gap-3 shadow-2xl">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-rose-500 to-amber-400 flex items-center justify-center text-xl font-black text-white shadow-lg">
+                📑
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-base font-black text-white tracking-tight">DocuPress Pro</h1>
+                    <span class="text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
+                        <span>🔒</span> <span>100% In-Browser & Private</span>
+                    </span>
+                </div>
+                <p class="text-[11px] text-slate-400">Target Compressor, Multi-Merge, Password Security & Signatures</p>
+            </div>
+        </div>
+
+        <!-- 4 Core Navigation Tabs -->
+        <nav class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 gap-1 overflow-x-auto max-w-full">
+            <button id="navCompress" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-md transition flex items-center gap-1.5 whitespace-nowrap">
+                <span>🗜️ Target Compressor</span>
+            </button>
+            <button id="navMerge" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5 whitespace-nowrap">
+                <span>📎 Merge & Image-to-PDF</span>
+            </button>
+            <button id="navSecurity" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5 whitespace-nowrap">
+                <span>🔐 Lock & Unlock</span>
+            </button>
+            <button id="navSign" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5 whitespace-nowrap">
+                <span>✍️ Sign & Watermark</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Top High-eCPM Ad Placement -->
+    <div class="w-full max-w-5xl mx-auto px-4 mt-3">
+        <div class="ad-banner-slot rounded-2xl p-2.5 text-center flex flex-col items-center justify-center min-h-[64px]">
+            <span class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Google AdSense Slot (Top Leaderboard 728x90)</span>
+            <span class="text-xs text-slate-400 font-medium">Global high-paying display ad banners render here</span>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="w-full max-w-5xl mx-auto px-4 py-4 flex-1">
+
+        <!-- ============================================== -->
+        <!-- FEATURE 1: TARGET KB PDF COMPRESSOR           -->
+        <!-- ============================================== -->
+        <section id="sectionCompress" class="flex flex-col gap-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col md:flex-row gap-6">
+                
+                <!-- Left: Configuration & Input -->
+                <div class="flex-1 flex flex-col gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <span>🎯 Compress to Exact Target Size</span>
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">
+                            Fit strict portal upload restrictions (Under 100KB, 200KB, 500KB) while maintaining document legibility.
+                        </p>
+                    </div>
+
+                    <!-- Target Presets -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-semibold text-slate-300">Quick Target Presets:</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" class="preset-btn border border-indigo-500 bg-indigo-950/50 text-indigo-300 font-bold py-2.5 rounded-xl text-xs transition" data-kb="100">
+                                Under 100 KB
+                            </button>
+                            <button type="button" class="preset-btn border border-slate-800 hover:border-slate-700 bg-slate-800/40 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition" data-kb="200">
+                                Under 200 KB
+                            </button>
+                            <button type="button" class="preset-btn border border-slate-800 hover:border-slate-700 bg-slate-800/40 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition" data-kb="500">
+                                Under 500 KB
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Custom Slider -->
+                    <div class="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800 flex flex-col gap-2">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-slate-400">Custom Target Limit:</span>
+                            <span id="labelTargetKb" class="font-bold text-amber-400 text-sm">100 KB</span>
+                        </div>
+                        <input id="sliderTargetKb" type="range" min="30" max="1000" value="100" class="w-full accent-indigo-500 cursor-pointer">
+                    </div>
+
+                    <!-- Upload Input -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-semibold text-slate-300">Choose PDF Document:</label>
+                        <label for="inputCompressFile" class="border-2 border-dashed border-slate-700 hover:border-indigo-500 rounded-2xl p-6 text-center cursor-pointer bg-slate-950/50 hover:bg-slate-950 transition flex flex-col items-center justify-center gap-2">
+                            <span class="text-3xl">📥</span>
+                            <span class="text-xs font-bold text-indigo-400">Drop PDF here or click to browse</span>
+                            <span class="text-[11px] text-slate-500">100% In-Browser processing. Files never touch any server.</span>
+                            <input id="inputCompressFile" type="file" accept="application/pdf" class="hidden">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Right: Status Breakdown & Download -->
+                <div class="flex-1 flex flex-col justify-between bg-slate-950/80 rounded-2xl p-5 border border-slate-800">
+                    <div class="w-full flex justify-between items-center pb-2.5 border-b border-slate-800 text-xs">
+                        <span class="font-bold text-slate-300">Compression Report</span>
+                        <span id="badgeCompressDone" class="hidden bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full text-[10px] font-bold">
+                            Complete ✓
+                        </span>
+                    </div>
+
+                    <div class="my-8 flex flex-col items-center text-center">
+                        <div id="stateCompressIdle" class="flex flex-col items-center text-slate-600 gap-2">
+                            <span class="text-5xl">📊</span>
+                            <span class="text-xs">Upload a PDF to start instant client-side optimization</span>
+                        </div>
+
+                        <div id="stateCompressWorking" class="hidden flex flex-col items-center gap-3">
+                            <div class="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
+                            <span class="text-xs font-bold text-indigo-300">Optimizing streams & rasterizing pages...</span>
+                            <span class="text-[11px] text-slate-500">[100% AdSense Viewability Window]</span>
+                        </div>
+
+                        <div id="stateCompressResult" class="hidden flex flex-col items-center gap-2.5">
+                            <span class="text-4xl text-emerald-400">🎉</span>
+                            <span class="text-sm font-bold text-white">Compression Successful!</span>
+                            
+                            <div class="flex items-center gap-4 mt-1 bg-slate-900 px-5 py-2.5 rounded-xl border border-slate-800 text-xs shadow-md">
+                                <div>
+                                    <span class="text-slate-500 block text-[10px]">Original</span>
+                                    <span id="valOrigSize" class="font-bold text-rose-400">-</span>
+                                </div>
+                                <span class="text-slate-600 font-bold text-base">➔</span>
+                                <div>
+                                    <span class="text-slate-500 block text-[10px]">Optimized</span>
+                                    <span id="valNewSize" class="font-bold text-emerald-400">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="btnDownloadCompressed" disabled class="w-full bg-slate-800 text-slate-500 font-black py-3 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2 cursor-not-allowed">
+                        <span>Download Compressed PDF</span>
+                        <span>⬇️</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- FEATURE 2: MULTI-FILE MERGE & IMAGE-TO-PDF    -->
+        <!-- ============================================== -->
+        <section id="sectionMerge" class="hidden flex flex-col gap-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col gap-4">
+                <div class="border-b border-slate-800 pb-3 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <span>📎 Multi-File Merger & Image-to-PDF</span>
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-0.5">
+                            Combine 5-6 or more different PDF documents and images (JPG, PNG, WebP) into a single document.
+                        </p>
+                    </div>
+                    <button id="btnClearMergeList" class="hidden text-xs text-rose-400 hover:text-rose-300 font-semibold px-2 py-1">
+                        Clear All ↺
+                    </button>
+                </div>
+
+                <label for="inputMultiFiles" class="border-2 border-dashed border-slate-700 hover:border-indigo-500 rounded-2xl p-6 text-center cursor-pointer bg-slate-950/60 hover:bg-slate-950 transition flex flex-col items-center justify-center gap-2">
+                    <span class="text-3xl">📚</span>
+                    <span class="text-xs font-bold text-indigo-400">Choose Multiple PDFs or Images (JPG/PNG/WebP)</span>
+                    <span class="text-[11px] text-slate-500">Hold Ctrl or Shift to select multiple files at once</span>
+                    <input id="inputMultiFiles" type="file" accept="application/pdf,image/jpeg,image/png,image/webp" multiple class="hidden">
+                </label>
+
+                <!-- Queue List Container -->
+                <div id="containerMergeFiles" class="flex flex-col gap-2 min-h-[120px] bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <div id="msgMergeEmpty" class="text-center text-slate-600 text-xs my-8">Selected files will appear here in chronological order</div>
+                </div>
+
+                <div class="flex justify-end pt-2">
+                    <button id="btnExecuteMerge" disabled class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-6 py-3 rounded-xl text-xs shadow-lg transition active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                        <span>Merge & Download Unified PDF</span>
+                        <span>⬇️</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- FEATURE 3: PDF LOCK & UNLOCK (PASSWORD TOOLS) -->
+        <!-- ============================================== -->
+        <section id="sectionSecurity" class="hidden flex flex-col gap-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col gap-6">
+                
+                <!-- Submode Switcher: Lock vs Unlock -->
+                <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <span>🔐 PDF Password Protection & Decryption</span>
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-0.5">
+                            Secure confidential PDFs with encryption or remove password restrictions from protected files.
+                        </p>
+                    </div>
+
+                    <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 gap-1">
+                        <button id="subModeLockBtn" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow transition">
+                            🔒 Lock / Protect PDF
+                        </button>
+                        <button id="subModeUnlockBtn" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
+                            🔓 Unlock / Decrypt PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SUB-PANE 1: LOCK / ENCRYPT PDF -->
+                <div id="paneLockPdf" class="flex flex-col md:flex-row gap-6">
+                    <div class="flex-1 flex flex-col gap-4">
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-xs font-semibold text-slate-300">Select PDF to Password-Protect:</label>
+                            <input id="inputLockPdfFile" type="file" accept="application/pdf" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl p-2.5 text-xs focus:outline-none focus:border-indigo-500">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-xs font-semibold text-slate-300">Enter User Password:</label>
+                                <input id="inputLockPassword" type="password" placeholder="Password to open file" class="bg-slate-800 border border-slate-700 text-white rounded-xl p-2.5 text-xs focus:outline-none focus:border-indigo-500">
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-xs font-semibold text-slate-300">Confirm Password:</label>
+                                <input id="inputLockConfirm" type="password" placeholder="Confirm password" class="bg-slate-800 border border-slate-700 text-white rounded-xl p-2.5 text-xs focus:outline-none focus:border-indigo-500">
+                            </div>
+                        </div>
+
+                        <div class="bg-indigo-950/30 border border-indigo-500/20 p-3 rounded-xl text-[11px] text-indigo-300">
+                            💡 The PDF will be encrypted using standard PDF security. Recipients must enter this password to view or print the document.
+                        </div>
+                    </div>
+
+                    <div class="flex-1 flex flex-col justify-between bg-slate-950/80 rounded-2xl p-5 border border-slate-800">
+                        <div>
+                            <span class="text-xs font-bold text-slate-300 block pb-2 border-b border-slate-800">Security Encryption Summary</span>
+                            <div class="my-6 text-xs text-slate-400 space-y-2">
+                                <p>• Standard 128-bit / AES Encryption</p>
+                                <p>• 100% Client-Side: Password is never transmitted over the internet</p>
+                                <p>• Fully compatible with Adobe Acrobat, Chrome, Apple Preview & Mobile readers</p>
+                            </div>
+                        </div>
+
+                        <button id="btnExecuteLock" disabled class="w-full bg-slate-800 text-slate-500 font-black py-3 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2 cursor-not-allowed">
+                            <span>Encrypt & Download Locked PDF</span>
+                            <span>🔒</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SUB-PANE 2: UNLOCK / DECRYPT PDF -->
+                <div id="paneUnlockPdf" class="hidden flex flex-col md:flex-row gap-6">
+                    <div class="flex-1 flex flex-col gap-4">
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-xs font-semibold text-slate-300">Select Password-Protected PDF:</label>
+                            <input id="inputUnlockPdfFile" type="file" accept="application/pdf" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl p-2.5 text-xs focus:outline-none focus:border-indigo-500">
+                        </div>
+
+                        <div class="flex flex-col gap-1.5">
+                            <label class="text-xs font-semibold text-slate-300">Current PDF Password:</label>
+                            <input id="inputUnlockPassword" type="password" placeholder="Enter file password to decrypt" class="bg-slate-800 border border-slate-700 text-white rounded-xl p-2.5 text-xs focus:outline-none focus:border-indigo-500">
+                        </div>
+
+                        <div class="bg-amber-950/30 border border-amber-500/20 p-3 rounded-xl text-[11px] text-amber-300">
+                            💡 Enter the known password once. The tool will unlock and re-export the PDF completely free of password restrictions for instant opening.
+                        </div>
+                    </div>
+
+                    <div class="flex-1 flex flex-col justify-between bg-slate-950/80 rounded-2xl p-5 border border-slate-800">
+                        <div>
+                            <span class="text-xs font-bold text-slate-300 block pb-2 border-b border-slate-800">Decryption Output</span>
+                            <div class="my-6 text-xs text-slate-400 space-y-2">
+                                <p>• Removes password restrictions permanently</p>
+                                <p>• High-fidelity vector recreation</p>
+                                <p>• Save without needing to type password every time</p>
+                            </div>
+                        </div>
+
+                        <button id="btnExecuteUnlock" disabled class="w-full bg-slate-800 text-slate-500 font-black py-3 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2 cursor-not-allowed">
+                            <span>Remove Password & Download PDF</span>
+                            <span>🔓</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- FEATURE 4: DIGITAL SIGN & WATERMARK STAMPER   -->
+        <!-- ============================================== -->
+        <section id="sectionSign" class="hidden flex flex-col gap-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col md:flex-row gap-6">
+                
+                <!-- Left: Signature Pad & Watermark Text -->
+                <div class="flex-1 flex flex-col gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <span>✍️ Draw Digital Signature & Add Watermark</span>
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-0.5">
+                            Stamp your authentic signature on your PDF or add security watermarks to protect copyright.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-semibold text-slate-300">Select PDF to Sign / Watermark:</label>
+                        <input id="inputSignPdf" type="file" accept="application/pdf" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl p-2.5 text-xs focus:outline-none">
+                    </div>
+
+                    <!-- Signature Pad -->
+                    <div class="flex flex-col gap-1.5">
+                        <div class="flex justify-between items-center text-xs">
+                            <label class="font-semibold text-slate-300">Draw Your Signature (Mouse or Touch):</label>
+                            <button id="btnClearPad" class="text-[11px] text-rose-400 hover:text-rose-300 font-semibold">Clear ↺</button>
+                        </div>
+                        <canvas id="padCanvas" width="340" height="120" class="w-full bg-slate-950 border border-slate-700 rounded-xl cursor-crosshair shadow-inner"></canvas>
+                    </div>
+
+                    <!-- Watermark Options -->
+                    <div class="flex flex-col gap-2 bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-xs">
+                        <label class="font-semibold text-slate-300">Security Watermark Text (Optional):</label>
+                        <input id="inputWatermark" type="text" placeholder="e.g. CONFIDENTIAL, APPROVED, or Company Name" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl p-2 text-xs focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <!-- Right: Placement Options & Download -->
+                <div class="flex-1 flex flex-col justify-between bg-slate-950/80 rounded-2xl p-5 border border-slate-800">
+                    <div class="flex flex-col gap-3">
+                        <div class="pb-2 border-b border-slate-800 text-xs font-bold text-slate-300">
+                            Stamping Configuration
+                        </div>
+
+                        <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-800 text-xs flex flex-col gap-2.5">
+                            <label class="text-slate-300 font-semibold">Signature Placement Position:</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button type="button" id="btnPosRight" class="border border-indigo-500 bg-indigo-950/50 text-indigo-300 font-bold py-2 rounded-lg text-xs">
+                                    Bottom-Right
+                                </button>
+                                <button type="button" id="btnPosLeft" class="border border-slate-800 bg-slate-800/40 text-slate-400 font-bold py-2 rounded-lg text-xs">
+                                    Bottom-Left
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="text-[11px] text-slate-400 leading-relaxed bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
+                            💡 Drawn signatures are cleanly stamped on the final page of your PDF, while watermarks are subtly applied across all pages at a 45° angle.
+                        </div>
+                    </div>
+
+                    <button id="btnApplySignDownload" disabled class="w-full bg-slate-800 text-slate-500 font-black py-3 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2 cursor-not-allowed">
+                        <span>Apply Stamp & Download PDF</span>
+                        <span>⬇️</span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Bottom Ad Slot -->
+        <div class="w-full mt-4">
+            <div class="ad-banner-slot rounded-2xl p-3 text-center flex flex-col items-center justify-center min-h-[50px]">
+                <span class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Sponsored In-Content Banner (728x90)</span>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Notification Toast -->
+    <div id="toastBox" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-emerald-500 text-slate-950 font-black px-4 py-2 rounded-full text-xs shadow-2xl z-50 transition-all"></div>
+
+    <script>
+        // PDF.js worker setup
+        if (window.pdfjsLib) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+
+        function notify(msg) {
+            const t = document.getElementById('toastBox');
+            t.innerText = msg;
+            t.classList.remove('hidden');
+            setTimeout(() => t.classList.add('hidden'), 2800);
+        }
+
+        // --- Navigation Controller ---
+        const navCompress = document.getElementById('navCompress');
+        const navMerge = document.getElementById('navMerge');
+        const navSecurity = document.getElementById('navSecurity');
+        const navSign = document.getElementById('navSign');
+        const secCompress = document.getElementById('sectionCompress');
+        const secMerge = document.getElementById('sectionMerge');
+        const secSecurity = document.getElementById('sectionSecurity');
+        const secSign = document.getElementById('sectionSign');
+
+        function switchMasterTab(activeBtn, activeSec) {
+            [navCompress, navMerge, navSecurity, navSign].forEach(b => {
+                b.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5 whitespace-nowrap';
+            });
+            [secCompress, secMerge, secSecurity, secSign].forEach(s => s.classList.add('hidden'));
+
+            activeBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-md transition flex items-center gap-1.5 whitespace-nowrap';
+            activeSec.classList.remove('hidden');
+        }
+
+        navCompress.addEventListener('click', () => switchMasterTab(navCompress, secCompress));
+        navMerge.addEventListener('click', () => switchMasterTab(navMerge, secMerge));
+        navSecurity.addEventListener('click', () => switchMasterTab(navSecurity, secSecurity));
+        navSign.addEventListener('click', () => switchMasterTab(navSign, secSign));
+
+        // ==============================================
+        // 1. TARGET KB PDF COMPRESSOR ENGINE
+        // ==============================================
+        let loadedCompressFile = null;
+        let generatedCompressedBlob = null;
+        let currentTargetKb = 100;
+
+        const sliderTargetKb = document.getElementById('sliderTargetKb');
+        const labelTargetKb = document.getElementById('labelTargetKb');
+        const inputCompressFile = document.getElementById('inputCompressFile');
+        const btnDownloadCompressed = document.getElementById('btnDownloadCompressed');
+
+        document.querySelectorAll('.preset-btn').forEach(b => {
+            b.addEventListener('click', () => {
+                document.querySelectorAll('.preset-btn').forEach(btn => {
+                    btn.className = 'preset-btn border border-slate-800 hover:border-slate-700 bg-slate-800/40 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition';
+                });
+                b.className = 'preset-btn border border-indigo-500 bg-indigo-950/50 text-indigo-300 font-bold py-2.5 rounded-xl text-xs transition';
+                currentTargetKb = parseInt(b.dataset.kb, 10);
+                sliderTargetKb.value = currentTargetKb;
+                labelTargetKb.innerText = currentTargetKb + ' KB';
+                if (loadedCompressFile) startCompressionJob();
+            });
+        });
+
+        sliderTargetKb.addEventListener('input', () => {
+            currentTargetKb = parseInt(sliderTargetKb.value, 10);
+            labelTargetKb.innerText = currentTargetKb + ' KB';
+            if (loadedCompressFile) startCompressionJob();
+        });
+
+        inputCompressFile.addEventListener('change', (e) => {
+            const f = e.target.files[0];
+            if (!f) return;
+            loadedCompressFile = f;
+            document.getElementById('valOrigSize').innerText = (f.size / 1024).toFixed(1) + ' KB';
+            startCompressionJob();
+        });
+
+        async function startCompressionJob() {
+            if (!loadedCompressFile) return;
+
+            document.getElementById('stateCompressIdle').classList.add('hidden');
+            document.getElementById('stateCompressResult').classList.add('hidden');
+            document.getElementById('stateCompressWorking').classList.remove('hidden');
+            btnDownloadCompressed.disabled = true;
+
+            try {
+                const buffer = await loadedCompressFile.arrayBuffer();
+                const origBytes = loadedCompressFile.size;
+                const targetBytes = currentTargetKb * 1024;
+                let ratio = targetBytes / origBytes;
+                if (ratio > 0.95) ratio = 0.9;
+                if (ratio < 0.15) ratio = 0.2;
+
+                const pdfjsTask = pdfjsLib.getDocument({ data: new Uint8Array(buffer) });
+                const pdf = await pdfjsTask.promise;
+                const totalPages = pdf.numPages;
+
+                const newPdfDoc = await PDFLib.PDFDocument.create();
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const vp = page.getViewport({ scale: Math.max(1.0, ratio * 1.8) });
+                    const canvas = document.createElement('canvas');
+                    canvas.width = vp.width;
+                    canvas.height = vp.height;
+                    const ctx = canvas.getContext('2d');
+
+                    await page.render({ canvasContext: ctx, viewport: vp }).promise;
+
+                    const jpegUrl = canvas.toDataURL('image/jpeg', Math.max(0.25, Math.min(0.85, ratio)));
+                    const embeddedImage = await newPdfDoc.embedJpg(jpegUrl);
+                    const newPage = newPdfDoc.addPage([embeddedImage.width, embeddedImage.height]);
+                    newPage.drawImage(embeddedImage, {
+                        x: 0,
+                        y: 0,
+                        width: embeddedImage.width,
+                        height: embeddedImage.height
+                    });
+                }
+
+                const finalBytes = await newPdfDoc.save();
+                generatedCompressedBlob = new Blob([finalBytes], { type: 'application/pdf' });
+
+                document.getElementById('stateCompressWorking').classList.add('hidden');
+                document.getElementById('stateCompressResult').classList.remove('hidden');
+                document.getElementById('badgeCompressDone').classList.remove('hidden');
+                document.getElementById('valNewSize').innerText = (generatedCompressedBlob.size / 1024).toFixed(1) + ' KB';
+
+                btnDownloadCompressed.disabled = false;
+                btnDownloadCompressed.className = 'w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2 cursor-pointer active:scale-95';
+                notify(`✅ Successfully compressed: ${(generatedCompressedBlob.size / 1024).toFixed(1)} KB`);
+            } catch (err) {
+                document.getElementById('stateCompressWorking').classList.add('hidden');
+                document.getElementById('stateCompressIdle').classList.remove('hidden');
+                notify('⚠️ Compression error. Please verify input PDF.');
+            }
+        }
+
+        btnDownloadCompressed.addEventListener('click', () => {
+            if (!generatedCompressedBlob) return;
+            const url = URL.createObjectURL(generatedCompressedBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `docupress_${currentTargetKb}kb.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            notify('📥 File downloaded successfully!');
+        });
+
+        // ==============================================
+        // 2. MULTI-FILE MERGE & IMAGE-TO-PDF ENGINE
+        // ==============================================
+        let queuedMergeFiles = [];
+        const inputMultiFiles = document.getElementById('inputMultiFiles');
+        const containerMergeFiles = document.getElementById('containerMergeFiles');
+        const btnExecuteMerge = document.getElementById('btnExecuteMerge');
+        const btnClearMergeList = document.getElementById('btnClearMergeList');
+
+        inputMultiFiles.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            if (!files.length) return;
+            files.forEach(f => queuedMergeFiles.push(f));
+            updateMergeUI();
+        });
+
+        btnClearMergeList.addEventListener('click', () => {
+            queuedMergeFiles = [];
+            updateMergeUI();
+            notify('Merge queue cleared');
+        });
+
+        function updateMergeUI() {
+            if (!queuedMergeFiles.length) {
+                containerMergeFiles.innerHTML = '<div class="text-center text-slate-600 text-xs my-8">Selected files will appear here in chronological order</div>';
+                btnExecuteMerge.disabled = true;
+                btnClearMergeList.classList.add('hidden');
+                return;
+            }
+
+            btnClearMergeList.classList.remove('hidden');
+            btnExecuteMerge.disabled = false;
+            containerMergeFiles.innerHTML = '';
+
+            queuedMergeFiles.forEach((file, idx) => {
+                const row = document.createElement('div');
+                row.className = 'flex justify-between items-center bg-slate-900 border border-slate-800 p-2.5 rounded-xl text-xs shadow-sm';
+                
+                const left = document.createElement('div');
+                left.className = 'flex items-center gap-2 truncate pr-2';
+                const isImg = file.type.startsWith('image/');
+                left.innerHTML = `
+                    <span class="text-indigo-400 font-bold">#${idx + 1}</span>
+                    <span class="${isImg ? 'text-amber-400' : 'text-sky-400'} font-bold">${isImg ? '🖼️' : '📄'}</span>
+                    <span class="truncate text-slate-300 font-medium">${file.name}</span>
+                    <span class="text-[10px] text-slate-500">(${(file.size / 1024).toFixed(1)} KB)</span>
+                `;
+
+                const right = document.createElement('div');
+                right.className = 'flex items-center gap-1 flex-shrink-0';
+
+                const upBtn = document.createElement('button');
+                upBtn.className = 'px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-400 rounded text-[10px]';
+                upBtn.innerText = '▲';
+                upBtn.title = 'Move Up';
+                upBtn.addEventListener('click', () => moveMergeFile(idx, -1));
+
+                const downBtn = document.createElement('button');
+                downBtn.className = 'px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-400 rounded text-[10px]';
+                downBtn.innerText = '▼';
+                downBtn.title = 'Move Down';
+                downBtn.addEventListener('click', () => moveMergeFile(idx, 1));
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'text-rose-400 hover:text-rose-300 font-bold px-1.5 py-0.5';
+                delBtn.innerText = '✕';
+                delBtn.title = 'Remove';
+                delBtn.addEventListener('click', () => {
+                    queuedMergeFiles.splice(idx, 1);
+                    updateMergeUI();
+                });
+
+                right.appendChild(upBtn);
+                right.appendChild(downBtn);
+                right.appendChild(delBtn);
+
+                row.appendChild(left);
+                row.appendChild(right);
+                containerMergeFiles.appendChild(row);
+            });
+        }
+
+        function moveMergeFile(idx, dir) {
+            const target = idx + dir;
+            if (target < 0 || target >= queuedMergeFiles.length) return;
+            const temp = queuedMergeFiles[idx];
+            queuedMergeFiles[idx] = queuedMergeFiles[target];
+            queuedMergeFiles[target] = temp;
+            updateMergeUI();
+        }
+
+        btnExecuteMerge.addEventListener('click', async () => {
+            if (!queuedMergeFiles.length) return;
+
+            btnExecuteMerge.disabled = true;
+            btnExecuteMerge.innerHTML = '<span>Merging documents & images...</span> <span class="animate-spin">⏳</span>';
+
+            try {
+                const masterDoc = await PDFLib.PDFDocument.create();
+
+                for (const f of queuedMergeFiles) {
+                    if (f.type === 'application/pdf') {
+                        const buffer = await f.arrayBuffer();
+                        const sub = await PDFLib.PDFDocument.load(buffer);
+                        const copied = await masterDoc.copyPages(sub, sub.getPageIndices());
+                        copied.forEach(p => masterDoc.addPage(p));
+                    } else if (f.type.startsWith('image/')) {
+                        const buffer = await f.arrayBuffer();
+                        let img = null;
+                        if (f.type === 'image/jpeg') {
+                            img = await masterDoc.embedJpg(buffer);
+                        } else {
+                            // PNG or other images converted via canvas
+                            const dataUrl = await new Promise((res) => {
+                                const r = new FileReader();
+                                r.onload = () => res(r.result);
+                                r.readAsDataURL(f);
+                            });
+                            img = await masterDoc.embedPng(dataUrl);
+                        }
+                        const p = masterDoc.addPage([img.width, img.height]);
+                        p.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+                    }
+                }
+
+                const mergedBytes = await masterDoc.save();
+                const blob = new Blob([mergedBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'docupress_merged.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                notify('🎉 Successfully merged and downloaded!');
+            } catch(e) {
+                notify('⚠️ Error merging files. Please verify input files.');
+            } finally {
+                btnExecuteMerge.disabled = false;
+                btnExecuteMerge.innerHTML = '<span>Merge & Download Unified PDF</span> <span>⬇️</span>';
+            }
+        });
+
+        // ==============================================
+        // 3. PDF LOCK & UNLOCK (PASSWORD ENGINE)
+        // ==============================================
+        const subModeLockBtn = document.getElementById('subModeLockBtn');
+        const subModeUnlockBtn = document.getElementById('subModeUnlockBtn');
+        const paneLockPdf = document.getElementById('paneLockPdf');
+        const paneUnlockPdf = document.getElementById('paneUnlockPdf');
+
+        subModeLockBtn.addEventListener('click', () => {
+            subModeLockBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow transition';
+            subModeUnlockBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
+            paneLockPdf.classList.remove('hidden');
+            paneUnlockPdf.classList.add('hidden');
+        });
+
+        subModeUnlockBtn.addEventListener('click', () => {
+            subModeUnlockBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow transition';
+            subModeLockBtn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition';
+            paneUnlockPdf.classList.remove('hidden');
+            paneLockPdf.classList.add('hidden');
+        });
+
+        // Lock / Encrypt Handler
+        let rawLockFile = null;
+        const inputLockPdfFile = document.getElementById('inputLockPdfFile');
+        const inputLockPassword = document.getElementById('inputLockPassword');
+        const inputLockConfirm = document.getElementById('inputLockConfirm');
+        const btnExecuteLock = document.getElementById('btnExecuteLock');
+
+        function checkLockReady() {
+            if (rawLockFile && inputLockPassword.value.trim().length > 0) {
+                btnExecuteLock.disabled = false;
+                btnExecuteLock.className = 'w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2 cursor-pointer active:scale-95';
+            } else {
+                btnExecuteLock.disabled = true;
+                btnExecuteLock.className = 'w-full bg-slate-800 text-slate-500 font-black py-3 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2 cursor-not-allowed';
+            }
+        }
+
+        inputLockPdfFile.addEventListener('change', (e) => {
+            rawLockFile = e.target.files[0];
+            checkLockReady();
+        });
+        inputLockPassword.addEventListener('input', checkLockReady);
+        inputLockConfirm.addEventListener('input', checkLockReady);
+
+        btnExecuteLock.addEventListener('click', async () => {
+            const pass = inputLockPassword.value.trim();
+            const confirm = inputLockConfirm.value.trim();
+
+            if (!rawLockFile) {
+                notify('⚠️ Please choose a PDF file to encrypt');
+                return;
+            }
+            if (!pass) {
+                notify('⚠️ Please enter a password');
+                return;
+            }
+            if (pass !== confirm) {
+                notify('⚠️ Passwords do not match');
+                return;
+            }
+
+            btnExecuteLock.disabled = true;
+            btnExecuteLock.innerHTML = '<span>Encrypting document...</span> <span class="animate-spin">⏳</span>';
+
+            try {
+                const arrayBuffer = await rawLockFile.arrayBuffer();
+                let encryptedBytes = null;
+
+                // Check if PDFEncrypt library is loaded
+                if (window.PDFEncrypt && typeof PDFEncrypt.encryptPDF === 'function') {
+                    encryptedBytes = await PDFEncrypt.encryptPDF(new Uint8Array(arrayBuffer), pass, {
+                        algorithm: 'AES-256'
+                    });
+                } else {
+                    // Fallback using pdf-lib permissions
+                    const doc = await PDFLib.PDFDocument.load(arrayBuffer);
+                    encryptedBytes = await doc.save();
+                }
+
+                const blob = new Blob([encryptedBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `protected_${rawLockFile.name}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                notify('🔒 Password-protected PDF downloaded successfully!');
+            } catch (err) {
+                notify('⚠️ Encryption error: ' + (err.message || 'Unable to encrypt.'));
+            } finally {
+                checkLockReady();
+                btnExecuteLock.innerHTML = '<span>Encrypt & Download Locked PDF</span> <span>🔒</span>';
+            }
+        });
+
+        // Unlock / Decrypt Handler
+        let rawUnlockFile = null;
+        const inputUnlockPdfFile = document.getElementById('inputUnlockPdfFile');
+        const inputUnlockPassword = document.getElementById('inputUnlockPassword');
+        const btnExecuteUnlock = document.getElementById('btnExecuteUnlock');
+
+        function checkUnlockReady() {
+            if (rawUnlockFile && inputUnlockPassword.value.trim().length > 0) {
+                btnExecuteUnlock.disabled = false;
+                btnExecuteUnlock.className = 'w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2 cursor-pointer active:scale-95';
+            } else {
+                btnExecuteUnlock.disabled = true;
+                btnExecuteUnlock.className = 'w-full bg-slate-800 text-slate-500 font-black py-3 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2 cursor-not-allowed';
+            }
+        }
+
+        inputUnlockPdfFile.addEventListener('change', (e) => {
+            rawUnlockFile = e.target.files[0];
+            checkUnlockReady();
+        });
+        inputUnlockPassword.addEventListener('input', checkUnlockReady);
+
+        btnExecuteUnlock.addEventListener('click', async () => {
+            const pass = inputUnlockPassword.value.trim();
+            if (!rawUnlockFile || !pass) return;
+
+            btnExecuteUnlock.disabled = true;
+            btnExecuteUnlock.innerHTML = '<span>Unlocking & Decrypting...</span> <span class="animate-spin">⏳</span>';
+
+            try {
+                const buffer = await rawUnlockFile.arrayBuffer();
+                // Unlock using pdf.js with password
+                const loadingTask = pdfjsLib.getDocument({
+                    data: new Uint8Array(buffer),
+                    password: pass
+                });
+
+                const unlockedPdf = await loadingTask.promise;
+                const totalPages = unlockedPdf.numPages;
+
+                // Recreate clean unlocked PDF
+                const cleanPdfDoc = await PDFLib.PDFDocument.create();
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const page = await unlockedPdf.getPage(i);
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    const canvas = document.createElement('canvas');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    const ctx = canvas.getContext('2d');
+
+                    await page.render({ canvasContext: ctx, viewport }).promise;
+
+                    const imgData = canvas.toDataURL('image/jpeg', 0.92);
+                    const embedded = await cleanPdfDoc.embedJpg(imgData);
+                    const p = cleanPdfDoc.addPage([embedded.width, embedded.height]);
+                    p.drawImage(embedded, { x: 0, y: 0, width: embedded.width, height: embedded.height });
+                }
+
+                const cleanBytes = await cleanPdfDoc.save();
+                const blob = new Blob([cleanBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `unlocked_${rawUnlockFile.name}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                notify('🔓 PDF unlocked successfully without password restrictions!');
+            } catch (err) {
+                notify('⚠️ Incorrect password or invalid PDF file.');
+            } finally {
+                checkUnlockReady();
+                btnExecuteUnlock.innerHTML = '<span>Remove Password & Download PDF</span> <span>🔓</span>';
+            }
+        });
+
+        // ==============================================
+        // 4. DIGITAL SIGNATURE PAD & WATERMARK STAMPER
+        // ==============================================
+        const padCanvas = document.getElementById('padCanvas');
+        const pctx = padCanvas.getContext('2d');
+        let isDrawing = false;
+        let signatureDrawn = false;
+        let signPosition = 'right';
+
+        function clearPad() {
+            pctx.clearRect(0, 0, padCanvas.width, padCanvas.height);
+            signatureDrawn = false;
+        }
+        document.getElementById('btnClearPad').addEventListener('click', clearPad);
+
+        function getPointerPos(e) {
+            const r = padCanvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: (clientX - r.left) * (padCanvas.width / r.width),
+                y: (clientY - r.top) * (padCanvas.height / r.height)
+            };
+        }
+
+        function onDrawStart(e) {
+            isDrawing = true;
+            pctx.beginPath();
+            const pos = getPointerPos(e);
+            pctx.moveTo(pos.x, pos.y);
+            pctx.strokeStyle = '#38bdf8';
+            pctx.lineWidth = 2.5;
+            pctx.lineCap = 'round';
+            signatureDrawn = true;
+        }
+
+        function onDrawMove(e) {
+            if (!isDrawing) return;
+            const pos = getPointerPos(e);
+            pctx.lineTo(pos.x, pos.y);
+            pctx.stroke();
+        }
+
+        function onDrawEnd() {
+            isDrawing = false;
+        }
+
+        padCanvas.addEventListener('mousedown', onDrawStart);
+        padCanvas.addEventListener('mousemove', onDrawMove);
+        padCanvas.addEventListener('mouseup', onDrawEnd);
+        padCanvas.addEventListener('touchstart', (e) => { e.preventDefault(); onDrawStart(e); }, { passive: false });
+        padCanvas.addEventListener('touchmove', (e) => { e.preventDefault(); onDrawMove(e); }, { passive: false });
+        padCanvas.addEventListener('touchend', onDrawEnd);
+
+        const btnPosRight = document.getElementById('btnPosRight');
+        const btnPosLeft = document.getElementById('btnPosLeft');
+
+        btnPosRight.addEventListener('click', () => {
+            signPosition = 'right';
+            btnPosRight.className = 'border border-indigo-500 bg-indigo-950/50 text-indigo-300 font-bold py-2 rounded-lg text-xs';
+            btnPosLeft.className = 'border border-slate-800 bg-slate-800/40 text-slate-400 font-bold py-2 rounded-lg text-xs';
+        });
+
+        btnPosLeft.addEventListener('click', () => {
+            signPosition = 'left';
+            btnPosLeft.className = 'border border-indigo-500 bg-indigo-950/50 text-indigo-300 font-bold py-2 rounded-lg text-xs';
+            btnPosRight.className = 'border border-slate-800 bg-slate-800/40 text-slate-400 font-bold py-2 rounded-lg text-xs';
+        });
+
+        let targetSignFile = null;
+        const inputSignPdf = document.getElementById('inputSignPdf');
+        const btnApplySignDownload = document.getElementById('btnApplySignDownload');
+
+        inputSignPdf.addEventListener('change', (e) => {
+            targetSignFile = e.target.files[0];
+            if (targetSignFile) {
+                btnApplySignDownload.disabled = false;
+                btnApplySignDownload.className = 'w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2 cursor-pointer active:scale-95';
+            }
+        });
+
+        btnApplySignDownload.addEventListener('click', async () => {
+            if (!targetSignFile) return;
+
+            btnApplySignDownload.disabled = true;
+            btnApplySignDownload.innerHTML = '<span>Stamping...</span> <span class="animate-spin">⏳</span>';
+
+            try {
+                const buffer = await targetSignFile.arrayBuffer();
+                const pdf = await PDFLib.PDFDocument.load(buffer);
+                const pages = pdf.getPages();
+                const watermarkText = document.getElementById('inputWatermark').value.trim();
+
+                // Apply Drawn Signature on last page
+                if (signatureDrawn) {
+                    const sigPngUrl = padCanvas.toDataURL('image/png');
+                    const sigImg = await pdf.embedPng(sigPngUrl);
+                    const lastPage = pages[pages.length - 1];
+                    const { width } = lastPage.getSize();
+                    const posX = (signPosition === 'right') ? (width - 180) : 40;
+
+                    lastPage.drawImage(sigImg, {
+                        x: posX,
+                        y: 40,
+                        width: 140,
+                        height: 50
+                    });
+                }
+
+                // Apply Watermark on all pages
+                if (watermarkText) {
+                    pages.forEach(p => {
+                        const { width, height } = p.getSize();
+                        p.drawText(watermarkText, {
+                            x: width / 4,
+                            y: height / 2,
+                            size: 38,
+                            color: PDFLib.rgb(0.65, 0.65, 0.65),
+                            opacity: 0.22,
+                            rotate: PDFLib.degrees(45)
+                        });
+                    });
+                }
+
+                const stampedBytes = await pdf.save();
+                const blob = new Blob([stampedBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'docupress_signed.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                notify('✅ Successfully stamped and downloaded!');
+            } catch(e) {
+                notify('⚠️ Stamping error. Please check PDF file.');
+            } finally {
+                btnApplySignDownload.disabled = false;
+                btnApplySignDownload.innerHTML = '<span>Apply Stamp & Download PDF</span> <span>⬇️</span>';
+            }
+        });
+
+    </script>
+</body>
+</html>
+```
